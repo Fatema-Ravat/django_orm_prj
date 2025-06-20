@@ -63,6 +63,8 @@ class Order(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
+    products = models.ManyToManyField(Product,through='OrderProduct')
+    
     class Meta:
         ordering=["-created_date"]
 
@@ -110,7 +112,10 @@ class PromotionEvent(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     price_reduction = models.IntegerField(choices=PriceReductionChoices.choices)
-
+    #products = models.ManyToManyField(Product) -- No need to explicitly create below table
+                                            # -- Django does it for you.
+    products = models.ManyToManyField(Product, through='ProductPromotionEvent')
+    #through field used to tell django not to create new table and use this table.          
     class Meta:
         ordering =["-start_date"]
 

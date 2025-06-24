@@ -395,6 +395,3 @@ def delete_category(request, category_id: int):
         }
     except Category.DoesNotExist:
         return {"error": "Category not found."}
-
-
-

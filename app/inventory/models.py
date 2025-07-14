@@ -3,6 +3,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class CategoryManager(models.Manager):
+    def active(self):
+        return self.filter(is_active=True)
+
 class Category(models.Model):
     """ Product Category model"""
 
@@ -15,6 +19,8 @@ class Category(models.Model):
 
     class Meta:
         ordering = ["name"]
+    
+    objects=CategoryManager()
 
     def __str__(self):
         return f"{self.id}-{self.name}"

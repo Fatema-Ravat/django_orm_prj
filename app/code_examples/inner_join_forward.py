@@ -30,17 +30,17 @@ def show_queries():
 # 🔎 Example 1: Products in the "Electronics" category
 def ex1():
     reset_queries()
-    qs = Product.objects.filter(category__name="Electronics")
+    qs = Product.objects.filter(category_id__name="Electronics")
     for p in qs:
         print(p.name)
-        print(p.category.name)
+        print(p.category_id.name)
     show_queries()
     pretty_all()
 
 
 def ex1_values():
     reset_queries()
-    qs = Product.objects.filter(category__name="Electronics").values(
+    qs = Product.objects.filter(category_id__name="Electronics").values(
         "name", "category__name"
     )
     for row in qs:
@@ -51,7 +51,7 @@ def ex1_values():
 
 def ex1_only():
     qs = Product.objects.only("name", "category__name").filter(
-        category__name="Electronics"
+        category_id__name="Electronics"
     )
     for p in qs:
         print(p.name, p.category.name)
@@ -61,7 +61,7 @@ def ex1_only():
 # 🔎 Example 2: Active products in the "Books" category
 def ex2():
     reset_queries()
-    qs = Product.objects.filter(category__name="Books", is_active=True)
+    qs = Product.objects.filter(category_id__name="Books", is_active=True)
     for p in qs:
         print(p.name)
     show_queries()
@@ -69,7 +69,7 @@ def ex2():
 
 
 def ex2_values():
-    qs = Product.objects.filter(category__name="Books", is_active=True).values(
+    qs = Product.objects.filter(category_id__name="Books", is_active=True).values(
         "name", "price"
     )
     for row in qs:
@@ -79,7 +79,7 @@ def ex2_values():
 
 def ex2_only():
     qs = Product.objects.only("name", "price", "category__name").filter(
-        category__name="Books", is_active=True
+        category_id__name="Books", is_active=True
     )
     for p in qs:
         print(p.name, p.price)
@@ -89,7 +89,7 @@ def ex2_only():
 # 🔎 Example 3: Products in any active category
 def ex3():
     reset_queries()
-    qs = Product.objects.filter(category__is_active=True)
+    qs = Product.objects.filter(category_id__is_active=True)
     for p in qs:
         print(p.name)
     show_queries()
@@ -97,7 +97,7 @@ def ex3():
 
 
 def ex3_values():
-    qs = Product.objects.filter(category__is_active=True).values_list("id", flat=True)
+    qs = Product.objects.filter(category_id__is_active=True).values_list("id", flat=True)
     for pid in qs:
         print(pid)
     pretty_all()
@@ -105,7 +105,7 @@ def ex3_values():
 
 def ex3_only():
     qs = Product.objects.only("name", "category__is_active").filter(
-        category__is_active=True
+        category_id__is_active=True
     )
     for p in qs:
         print(p.name)
@@ -115,7 +115,7 @@ def ex3_only():
 # 🔎 Example 4: Products in categories starting with "Home"
 def ex4():
     reset_queries()
-    qs = Product.objects.filter(category__name__startswith="Home")
+    qs = Product.objects.filter(category_id__name__startswith="Home")
     for p in qs:
         print(p.name)
     show_queries()
@@ -123,7 +123,7 @@ def ex4():
 
 
 def ex4_values():
-    qs = Product.objects.filter(category__name__startswith="Home").values(
+    qs = Product.objects.filter(category_id__name__startswith="Home").values(
         "name", "category__slug"
     )
     for row in qs:
@@ -132,18 +132,18 @@ def ex4_values():
 
 
 def ex4_only():
-    qs = Product.objects.only("name", "category__slug").filter(
+    qs = Product.objects.only("name", "category_id__slug").filter(
         category__name__startswith="Home"
     )
     for p in qs:
-        print(p.name, p.category.slug)
+        print(p.name, p.category_id.slug)
     pretty_all()
 
 
 # 🔎 Example 5: Products in a specific category by slug
 def ex5():
     reset_queries()
-    qs = Product.objects.filter(category__slug="clothing-men")
+    qs = Product.objects.filter(category_id__slug="clothing-men")
     for p in qs:
         print(p.name)
     show_queries()
@@ -151,7 +151,7 @@ def ex5():
 
 
 def ex5_values():
-    qs = Product.objects.filter(category__slug="clothing-men").values_list(
+    qs = Product.objects.filter(category_id__slug="clothing-men").values_list(
         "slug", flat=True
     )
     for slug in qs:
@@ -160,8 +160,8 @@ def ex5_values():
 
 
 def ex5_only():
-    qs = Product.objects.only("name", "slug", "category__slug").filter(
-        category__slug="clothing-men"
+    qs = Product.objects.only("name", "slug", "category_id__slug").filter(
+        category_id__slug="clothing-men"
     )
     for p in qs:
         print(p.name, p.slug)
@@ -171,18 +171,18 @@ def ex5_only():
 # 🔎 Example 6: Products ordered by category name (with select_related)
 def ex6():
     reset_queries()
-    qs = Product.objects.select_related("category").order_by("category__name")
+    qs = Product.objects.select_related("category_id").order_by("category_id__name")
     for p in qs:
-        print(p.name, "->", p.category.name)
+        print(p.name, "->", p.category_id.name)
     show_queries()
     pretty_all()
 
 
 def ex6_values():
     qs = (
-        Product.objects.select_related("category")
-        .order_by("category__name")
-        .values("name", "category__name")
+        Product.objects.select_related("category_id")
+        .order_by("category_id__name")
+        .values("name", "category_id__name")
     )
     for row in qs:
         print(row)
@@ -191,12 +191,12 @@ def ex6_values():
 
 def ex6_only():
     qs = (
-        Product.objects.only("name", "category__name")
-        .select_related("category")
-        .order_by("category__name")
+        Product.objects.only("name", "category_id__name")
+        .select_related("category_id")
+        .order_by("category_id__name")
     )
     for p in qs:
-        print(p.name, p.category.name)
+        print(p.name, p.category_id.name)
     show_queries()
     pretty_all()
 
@@ -204,7 +204,7 @@ def ex6_only():
 # 🔎 Example 7: Products where category level = 2
 def ex7():
     reset_queries()
-    qs = Product.objects.filter(category__level=2)
+    qs = Product.objects.filter(category_id__level=2)
     for p in qs:
         print(p.name)
     show_queries()
@@ -212,14 +212,14 @@ def ex7():
 
 
 def ex7_values():
-    qs = Product.objects.filter(category__level=2).values("name", "category__level")
+    qs = Product.objects.filter(category_id__level=2).values("name", "category_id__level")
     for row in qs:
         print(row)
     pretty_all()
 
 
 def ex7_only():
-    qs = Product.objects.only("name", "category__level").filter(category__level=2)
+    qs = Product.objects.only("name", "category_id__level").filter(category_id__level=2)
     for p in qs:
-        print(p.name, p.category.level)
+        print(p.name, p.category_id.level)
     pretty_all()

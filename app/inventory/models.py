@@ -40,7 +40,7 @@ class Product(models.Model):
     category_id = models.ForeignKey(
                     Category,
                     on_delete=models.RESTRICT,
-                    related_name="product_category"
+                    related_name="products"
                     )
 
 

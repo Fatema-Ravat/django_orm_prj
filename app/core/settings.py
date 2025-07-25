@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'inventory',
-    'django-extensions',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -142,4 +142,7 @@ SHELL_PLUS_IMPORTS = [
     "from code_examples.inner_join_one_to_one_reverse import *",
     "from code_examples.many_to_many import *",
     "from code_examples.rawsql import *",
+    "from code_examples.avg_examples import *",
+    "from code_examples.count_examples import *",
+    "from code_examples.sum_examples import *",
 ]

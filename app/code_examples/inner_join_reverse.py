@@ -10,6 +10,9 @@ import os
 from django.db import connection, reset_queries
 from inventory.models import Category
 
+# 🔃 Reverse Count: Categories annotated with number of products
+from django.db.models import Count
+
 
 def cls():
     os.system("clear")
@@ -28,7 +31,7 @@ def show_queries():
 
 
 # 🔁 Reverse Access: Using default product_set
-def ex1():
+def ex31():
     """Category → Products using default reverse accessor: product_set"""
     reset_queries()
     category = Category.objects.get(name="Books")
@@ -39,7 +42,7 @@ def ex1():
 
 
 # 🔁 Reverse Access: Using custom related_name="products"
-def ex2():
+def ex32():
     """Category → Products using custom related_name: products"""
     reset_queries()
     category = Category.objects.get(name="Books")
@@ -50,7 +53,7 @@ def ex2():
 
 
 # 🔎 Reverse Filter: Categories with active products (reverse filter)
-def ex8():
+def ex38():
     """Find categories that have at least one active product"""
     reset_queries()
     # qs = Category.objects.filter(products__is_active=True).distinct()
@@ -62,7 +65,7 @@ def ex8():
 
 
 # 🔎 Reverse Filter: Categories where any product is digital
-def ex9():
+def ex39():
     """Find categories with at least one digital product"""
     reset_queries()
     qs = Category.objects.filter(products__is_digital=True).distinct()
@@ -72,11 +75,10 @@ def ex9():
     pretty_all()
 
 
-# 🔃 Reverse Count: Categories annotated with number of products
-from django.db.models import Count
 
 
-def ex10():
+
+def ex310():
     """Annotate each category with product count"""
     reset_queries()
     qs = Category.objects.annotate(num_products=Count("products")).filter(
@@ -89,7 +91,7 @@ def ex10():
 
 
 # 🧪 Reverse with filtering + ordering
-def ex11():
+def ex311():
     """Categories with active products, ordered by category name"""
     reset_queries()
     qs = Category.objects.filter(products__is_active=True).distinct().order_by("name")
